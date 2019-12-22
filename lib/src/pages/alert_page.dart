@@ -7,7 +7,7 @@ class AlertPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Alert Page"),
+        title: Text("Pagina de la Alerta"),
       ),
       body:Center(
         child: RaisedButton(
@@ -36,7 +36,7 @@ void _mostrarAlerta(context){
     builder: (context){
       return AlertDialog(
         shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10.0)),
-        title: Text("Titulo"),
+        title: Text("Titulo de la notificacion"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
