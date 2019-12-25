@@ -10,6 +10,8 @@ class _InputPageState extends State<InputPage> {
   String _nombre = "";
   String _email = "";
   String _fecha;
+  String _opcionSeleccionada='Volar';
+  List<String> _poderes = ['Volar', 'Rayos', 'Super Fuerza', 'Velocidad'];
   TextEditingController _inputDateController = new TextEditingController();
 
   @override
@@ -28,6 +30,8 @@ class _InputPageState extends State<InputPage> {
           _crearPassword(),
           Divider(),
           _crearFecha(context),
+          Divider(),
+          _crearDropdown(),
           Divider(),
           _crearPersona()
         ],
@@ -58,6 +62,7 @@ class _InputPageState extends State<InputPage> {
     return ListTile(
       title: Text("El nombre es: $_nombre"),
       subtitle: Text("El email es: $_email"),
+      trailing: Text(_opcionSeleccionada),
     );
   }
 
@@ -109,20 +114,50 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
-     _selectDate(BuildContext context) async {
-       DateTime picked = await showDatePicker(
-         context: context,
-         initialDate: new DateTime.now(),
-         firstDate: new DateTime(2018),
-         lastDate: new DateTime(2025),
-         locale: Locale('es','ES')
-       );
-       if (picked!=null) {
-            setState(() {
-              _fecha=picked.toString();
-              _inputDateController.text = _fecha;
-             
-            });
-       }
+  _selectDate(BuildContext context) async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: new DateTime.now(),
+        firstDate: new DateTime(2018),
+        lastDate: new DateTime(2025),
+        locale: Locale('es', 'ES'));
+    if (picked != null) {
+      setState(() {
+        _fecha = picked.toString();
+        _inputDateController.text = _fecha;
+      });
+    }
+  }
+
+  Widget _crearItemsDropdown() {
+    return DropdownButton(
+      value: _opcionSeleccionada,
+      items: getOpcionesDropdown(),
+      onChanged:(opt){
+        setState(() {
+          _opcionSeleccionada=opt;
+        });
+      },
+    );
+  }
+
+  Widget _crearDropdown(){
+    return Row(
+      children: <Widget>[
+          Icon(Icons.format_align_left),
+          SizedBox(width: 50.0),
+          Expanded(child: _crearItemsDropdown())
+      ],
+    );
+  }
+  List<DropdownMenuItem<String>> getOpcionesDropdown() {
+    List<DropdownMenuItem<String>> lista = new List();
+    _poderes.forEach((poder) {
+      lista.add(DropdownMenuItem(
+        child: Text(poder),
+        value: poder,
+      ));
+    });
+    return lista;
   }
 }
